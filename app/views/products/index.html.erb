@@ -1,0 +1,202 @@
+		<style>
+		#myImg {
+		    border-radius: 5px;
+		    cursor: pointer;
+		    transition: 0.3s;
+		}
+		
+		#myImg:hover {opacity: 0.7;}
+		
+		/* The Modal (background) */
+		.modal {
+		    display: none; /* Hidden by default */
+		    position: fixed; /* Stay in place */
+		    z-index: 10000; /* Sit on top */
+		    padding-top: 100px; /* Location of the box */
+		    left: 0;
+		    top: 0;
+		    width: 100%; /* Full width */
+		    height: 100; /* Full height */
+		    overflow: auto; /* Enable scroll if needed */
+		    background-color: rgb(0,0,0); /* Fallback color */
+		    background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+		}
+		
+		/* Modal Content (image) */
+		.modal-content {
+		    margin: auto;
+		    display: block;
+		    width: 80%;
+		    max-width: 700px;
+		}
+		
+		/* Caption of Modal Image */
+		#caption {
+		    margin: auto;
+		    display: block;
+		    width: 80%;
+		    max-width: 700px;
+		    text-align: center;
+		    color: #ccc;
+		    padding: 10px 0;
+		    height: 150px;
+		}
+		
+		/* Add Animation */
+		.modal-content, #caption {    
+		    -webkit-animation-name: zoom;
+		    -webkit-animation-duration: 0.6s;
+		    animation-name: zoom;
+		    animation-duration: 0.6s;
+		}
+		
+		@-webkit-keyframes zoom {
+		    from {-webkit-transform:scale(0)} 
+		    to {-webkit-transform:scale(1)}
+		}
+		
+		@keyframes zoom {
+		    from {transform:scale(0)} 
+		    to {transform:scale(1)}
+		}
+		
+		/* The Close Button */
+		.close {
+		    position: absolute;
+		    top: 15px;
+		    right: 35px;
+		    color: #f1f1f1;
+		    font-size: 40px;
+		    font-weight: bold;
+		    transition: 0.3s;
+		}
+		
+		.close:hover,
+		.close:focus {
+		    color: #bbb;
+		    text-decoration: none;
+		    cursor: pointer;
+		}
+		
+		/* 100% Image Width on Smaller Screens */
+		@media only screen and (max-width: 400px){
+		    .modal-content {
+		        width: 100%;
+		    }
+		}
+		</style>
+		<section class="content-header">
+			 <%= link_to raw("<i class=\"fa fa-plus\" aria-hidden=\"true\"> </i> Create New Product"), 
+			 	new_product_path,
+			 	:class => "btn btn-primary btn-flat " %>
+			 
+			<ol class="breadcrumb">
+				<li>
+					<a href="#"><i class="fa fa-dashboard"></i> Home</a>
+				</li>
+				<li>
+					<a href="#">Products</a>
+				</li>
+				<li class="active">Index page</li>
+			</ol>
+		</section><!-- Main content -->
+		<section class="content">
+			<%= render 'shared/flash' %>
+			
+			<div class="box box-primary">
+				<!-- /.box-header -->
+				<div class="box-header ">
+	            	<h3 class="box-title">Products</h3> <small>List</small>
+	            	<div class="pull-right">
+						<%= form_tag(products_path, :method => "get", id: "search-form") do %>
+							<table class="table-search">
+								<tr>
+									<td class="td-search"><b class="pull-right"></b></td>
+									<td class="td-search">
+									    <table>
+                                          <tr>
+                                            <th><%= text_field_tag :search, params[:search], class: "form-control input-sm search-field", placeholder: 'From (YYYY-MM-DD)' %></th>
+                                            <th><%= text_field_tag :search2, params[:search2], class: "form-control input-sm search-field", placeholder: 'To (YYYY-MM-DD)'  %></th>
+                                            <th><%= submit_tag "search", class: "btn btn-success" %></th>
+                                          </tr>
+                                        </table>
+									</td>
+								</tr>
+							</table>
+							
+						<% end %>
+					</div>
+	            </div>
+				<div class="box-body padding-xs" id="dttable_filter">
+					<table class="table table-bordered table-hover" >
+						<thead>
+							<tr>
+								<th text style="width: 300px">Title</th>
+								<th>Category</th>
+								<th>Create At</th>
+								<th style="width: 100px">Image</th>
+								<th style="width: 60px">Action</th>
+							</tr>
+						</thead>
+						</tbody>
+							<tr><%@products.each do |product| %>
+								<td style="vertical-align: top !important;"><%= product.title %></td>
+								<td style="vertical-align: top !important;"><%= product.category %></td>
+								<td style="vertical-align: top !important;"><%= product.created_at.strftime("%Y-%m-%d") %></td>
+								<td><%= image_tag product.image.url(:medium), class:"myImg"  %></td>
+								<td>
+								<table>
+								<tr>
+									<td>
+									<%= link_to raw("<i class=\"fa fa-trash\" aria-hidden=\"true\"> </i>"),
+										product_path(product), method: :delete, 
+										data: {confirm: "Are you sure?"}, 
+										:class => "btn btn-danger btn-sm"%>
+									</td>
+								</tr>
+								</table>
+							</tr><%end %>
+						</tbody>
+					</table>
+				
+					
+					
+					
+				</div><!-- /.box-body -->
+				<div class="box-footer ">
+					<center><%= will_paginate @products, renderer: BootstrapPagination::Rails, :class => 'pagination pagination-md no-margin' %></center>
+				</div>
+			</div><!-- /.box-end -->
+			
+		</section>
+			<!-- The Modal -->
+					<div id="myModal" class="modal">
+					  <span class="close">&times;</span>
+					  <img class="modal-content" id="img01">
+					</div>
+					<!-- The Modal -->
+					
+		<script>
+		// Get the modal
+		var modal = document.getElementById('myModal');
+		
+		// Get the image and insert it inside the modal - use its "alt" text as a caption
+		var img = $('.myImg');
+		var modalImg = $("#img01");
+		var captionText = document.getElementById("caption");
+		$('.myImg').click(function(){
+		    modal.style.display = "block";
+		    var newSrc = this.src;
+		    modalImg.attr('src', newSrc);
+		    captionText.innerHTML = this.alt;
+		});
+		
+		// Get the <span> element that closes the modal
+		var span = document.getElementsByClassName("close")[0];
+		
+		// When the user clicks on <span> (x), close the modal
+		span.onclick = function() {
+		  modal.style.display = "none";
+		}
+		</script>
+		

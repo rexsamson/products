@@ -1,0 +1,62 @@
+        <%= render 'shared/errors', obj: @product %>
+        <script>
+        
+        </script>
+        <div class="row">
+            <%= simple_form_for @product, url: products_path do |f| %>
+                <div class="col-sm-2">
+            		<div class="form-group">
+            		   Category
+        		    </div>
+    		    </div>
+            	
+                <div class="col-sm-10">
+            		<div class="form-group">
+            		    <%= f.input :category, 
+                            hint: false,
+                            :error => false,
+                            label: false,
+                            :collection => [
+                                ['Electronic','Electronic'],
+                                ['Sport','Sport'],
+                                ['Automotive','Automotive'],
+                                ['Furniture','Furniture'],
+                                ['Book','Book'],
+                                ['Fashion','Fashion']], 
+                            input_html: {class: 'option-large' }
+                        %>
+        		    </div>
+        		</div>
+            	<div class="col-sm-2">
+            		<div class="form-group">
+            		   Title
+        		    </div>
+    		    </div>
+            	<div class="col-sm-10">
+            		<div class="form-group">
+            			<%= f.input :title, input_html: {class: 'option-large' }, hint: false,:error => false,label: false %>
+            		</div>
+            	</div>
+                <div class="col-sm-2">
+            		<div class="form-group">
+            		   Image
+        		    </div>
+    		    </div>
+            	<div class="col-sm-10">
+            		<div class="form-group">
+            			<%= f.input :image, input_html: {class: 'option-large' }, hint: false,:error => false,label: false %>
+            		</div>
+            	</div>
+            	
+            	
+            	<br>
+            	<div class="col-sm-12">
+                	<div class="text-right btn-toolbar">
+                		<%= link_to raw("<i class=\"fa fa-times\" aria-hidden=\"true\"></i> Cancel"), products_path , :class => "btn btn-danger btn-flat pull-right" %> 
+                		<%= button_tag( :class => "btn btn-success btn-flat pull-right") do %>
+            			  <i class="fa fa-check" aria-hidden="true"></i> Submit 
+            			<% end %>
+                	</div>
+            	</div>
+            <%end %>
+        </div>

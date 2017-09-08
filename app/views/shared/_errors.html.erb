@@ -1,0 +1,6 @@
+		<%if obj.errors.any? %>
+		<script>toastr.error(
+			"<ul><% obj.errors.full_messages.each do |msg| %><li><%= msg %></li><%end %></ul>", 
+			"<h4><i class='fa fa-exclamation-triangle'> </i>&nbsp;<span> There are some errors occurred !<span></h4>").css("width","300px")
+		</script>
+		<%end %>

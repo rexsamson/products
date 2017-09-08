@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<%= render 'layouts/partials/head' %>
+<body class="hold-transition login-pages">
+<div class="login-box">
+  <div class="login-logo">
+    <span class="logo-lg"><b></b> Login </span></a>
+  </div>
+  <!-- /.login-logo -->
+  <div class="login-box-body">
+
+    <%= form_for(:session, :html => { role: "form"}, url: login_path) do |f| %>
+    <%= render 'shared/loginflash' %>
+    <br>
+      <div class="input-group margin-bottom">
+        <span class="input-group-addon"><i class="fa fa-envelope fa-fw"></i></span>
+        <%= f.text_field :email, class: "form-control", 
+            placeholder: "Enter your Email", autofocus: true %>
+      </div>
+      <div class="input-group margin-bottom">
+        <span class="input-group-addon"><i class="fa fa-key fa-fw"></i></span>
+        <%= f.password_field :password, class: "form-control", 
+            placeholder: "Enter your password", autofocus: true %>
+      </div>
+      <div class="row">
+
+        <!-- /.col --></br>
+        <div class="col-xs-12">
+          <%= f.submit " Login ", class: 'btn btn-success btn-block btn-flat' %>
+        </div>
+        <!-- /.col -->
+      </div>
+    <% end %>
+    <br>
+
+  </div>
+  <!-- /.login-box-body -->
+</div>
+<!-- /.login-box -->
+</body>
+</html>

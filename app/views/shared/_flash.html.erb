@@ -1,0 +1,6 @@
+        <% flash.each do |name, msg| %>
+		<script>toastr.<%= name %>(
+			"<ul><li><%= msg %></li></ul>", 
+			"<h4><i class='icon fa fa-check'></i>&nbsp;<span> Notice <%= name %><span></h4>").css("width","350px")
+		</script>
+		<%end %>
